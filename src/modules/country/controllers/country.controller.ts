@@ -7,7 +7,6 @@ import {
   Patch,
   Post,
   Query,
-  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -55,7 +54,9 @@ export class CountryController {
   })
   @Authenticated()
   async findOneByName(@Query('name') name: string) {
-    return await this.countryService.findOneBy({ formalName: Like(name) });
+    return await this.countryService.findOneBy({
+      formalName: Like(`%${name}%`),
+    });
   }
 
   @Post('/create-country')

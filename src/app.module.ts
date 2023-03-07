@@ -1,3 +1,6 @@
+import { LecturesModule } from './modules/lectures/lectures.module';
+import { ScoresModule } from './modules/scores/scores.module';
+import { SchoolsModule } from './modules/schools/school.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -7,6 +10,7 @@ import { typeORMConfig } from './configs/typeorm.config';
 import { CountryModule } from './modules/country/country.module';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { StudentsModule } from './modules/students/student.module';
 
 @Module({
   imports: [
@@ -16,6 +20,10 @@ import { AuthModule } from './modules/auth/auth.module';
     CountryModule,
     UsersModule,
     AuthModule,
+    StudentsModule,
+    SchoolsModule,
+    ScoresModule,
+    LecturesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

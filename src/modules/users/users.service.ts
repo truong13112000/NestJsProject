@@ -1,10 +1,8 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { Repository, DeepPartial } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { json } from 'stream/consumers';
 
 @Injectable()
 export class UsersService {

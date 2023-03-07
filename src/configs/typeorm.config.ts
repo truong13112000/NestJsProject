@@ -1,3 +1,5 @@
+import { StudentsEntity } from './../modules/students/entities/student.entity';
+import { ScoresEntity } from './../modules/scores/entities/socres.entity';
 import {
   OrganisationDetailEntity,
   OrganisationDetailRolesEntity,
@@ -9,6 +11,8 @@ import {
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { CountryEntity } from 'src/modules/country/entities/country.entity';
 import { User } from 'src/modules/users/entities/user.entity';
+import { LecturesEntity } from 'src/modules/lectures/entities/lecture.entity';
+import { SchoolsEntity } from 'src/modules/schools/entities/shool.entity';
 export const typeORMConfig: TypeOrmModuleOptions = {
   type: 'postgres',
   port: 5432,
@@ -27,5 +31,9 @@ export const typeORMConfig: TypeOrmModuleOptions = {
     OrganisationDetailEntity,
     OrganisationEntity,
     RolesNameEntity,
+    LecturesEntity,
+    SchoolsEntity,
+    ScoresEntity,
+    StudentsEntity,
   ],
 };
