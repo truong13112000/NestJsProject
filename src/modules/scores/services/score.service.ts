@@ -35,8 +35,9 @@ export class ScoreService {
       .getRepository(LecturesEntity)
       .find();
     const array = [];
-    listLecture.forEach(async (e) => {
+    for (let i = 0; i < listLecture.length; i++) {
       const lectureInfo = {};
+      const scoreInfo = {};
       const scoreResult = await this.scoreRepository
         .createQueryBuilder('score')
         .select([
@@ -44,20 +45,18 @@ export class ScoreService {
           'Max(s.student_name) as student_name',
         ])
         .leftJoin('students', 's', 's.id = score.studentId')
-        .where(`score.lectureId = ${e.id}`)
+        .where(`score.lectureId = ${listLecture[i].id}`)
         .groupBy('score.studentId')
         .orderBy('score_value', 'DESC')
         .limit(3)
         .getRawMany();
-      const scoreInfo = {};
       scoreResult.forEach((a: ScoreAndStudentInfo) => {
         scoreInfo[`${a.student_name}`] = a.score_value;
       });
-      lectureInfo[`${e.lecturelName}`] = scoreInfo;
+      lectureInfo[`${listLecture[i].lecturelName}`] = scoreInfo;
       array.push(lectureInfo);
       console.log(array);
-    });
-    console.log(2);
+    }
     return array;
   }
 
