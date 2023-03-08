@@ -14,6 +14,7 @@ export class ScoreService {
     private dataSource: DataSource,
   ) {}
   result: GetLectureAndScoreInfo[] = [];
+  checkName: string;
 
   async findAll(): Promise<ScoresEntity[]> {
     return await this.scoreRepository.find();
@@ -30,7 +31,7 @@ export class ScoreService {
     return await this.scoreRepository.save(data);
   }
 
-  async getData(): Promise<any[]> {
+  async getData1(): Promise<any[]> {
     const listLecture = await this.dataSource
       .getRepository(LecturesEntity)
       .find();
@@ -55,8 +56,42 @@ export class ScoreService {
       });
       lectureInfo[`${listLecture[i].lecturelName}`] = scoreInfo;
       array.push(lectureInfo);
-      console.log(array);
     }
+    return array;
+  }
+
+  async getData(): Promise<any[]> {
+    const array = [];
+    const lectureInfo = {};
+    let scoreInfo = {};
+    let scoreResult = await this.dataSource
+      .getRepository(LecturesEntity)
+      .createQueryBuilder('lecture')
+      .select([
+        'Max(score.score_value) as score_value',
+        'Max(s.student_name) as student_name',
+        'Max(lecture.lecture_name) as lecturelName',
+        'ROW_NUMBER() OVER(PARTITION BY lecture.lecture_name ORDER BY Max(score.score_value) DESC) RN',
+      ])
+      .leftJoin('scores', 'score', 'score.lecture_id = lecture.id')
+      .leftJoin('students', 's', 's.id = score.studentId')
+      .groupBy('score.studentId,lecture.lecture_name')
+      .orderBy('lecturelName')
+      .addOrderBy('score_value', 'DESC')
+      .getRawMany();
+    scoreResult = scoreResult.filter((e) => e.rn <= 3);
+    this.checkName = scoreResult[0].lecturelname;
+    scoreResult.map((a) => {
+      if (this.checkName == a.lecturelname) {
+        scoreInfo[`${a.student_name}`] = a.score_value;
+        lectureInfo[this.checkName] = scoreInfo;
+      } else {
+        scoreInfo = {};
+        scoreInfo[`${a.student_name}`] = a.score_value;
+      }
+      this.checkName = a.lecturelname;
+    });
+    array.push(lectureInfo);
     return array;
   }
 
