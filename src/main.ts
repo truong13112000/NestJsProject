@@ -22,9 +22,9 @@ async function createApp(
   app.setGlobalPrefix('/api/v1');
 
   const config = new DocumentBuilder()
-    .setTitle('The MSCM Global')
-    .setDescription('The MSCM Global API description')
-    .setVersion('1.0')
+    .setTitle(';)')
+    .setDescription('API description')
+    .setVersion('1.1')
     .addBearerAuth({ in: 'header', type: 'http' })
     .build();
   const document = SwaggerModule.createDocument(app, config);

@@ -8,23 +8,27 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Authenticated } from 'src/modules/auth/decorators/allow.decorater';
 import { Like } from 'typeorm';
+import { GetStudentInfoDto } from '../dto/getStudentInfo.dto';
 import { StudentsEntity } from '../entities/student.entity';
 import { StudentService } from '../services/student.service';
 
 @ApiTags('student')
 @Controller('student')
-@ApiBearerAuth()
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
+
+  @Post('/get-student-info')
+  @ApiOperation({ summary: 'Find one lectures by name' })
+  @ApiResponse({
+    status: 200,
+    description: 'Create success',
+  })
+  async getStudentInfo(@Body() input: GetStudentInfoDto) {
+    return await this.studentService.getStudentInfo(input);
+  }
 
   @Get('/find-all')
   @ApiOperation({ summary: 'Find one lectures by name' })
@@ -44,7 +48,6 @@ export class StudentController {
     status: 200,
     type: StudentsEntity,
   })
-  @Authenticated()
   async findOneByName(@Query('name') name: string) {
     return await this.studentService.findOneBy({
       studentName: Like(`%${name}%`),

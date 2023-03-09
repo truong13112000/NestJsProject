@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Max, Min } from 'class-validator';
 import { snowflake } from 'src/helps/common';
 import { BaseEntity, Column, DeepPartial, Entity } from 'typeorm';
 
@@ -15,6 +16,12 @@ export class ScoresEntity extends BaseEntity {
   @Column({
     name: 'score_value',
     nullable: true,
+  })
+  @Min(0, {
+    message: 'Score must be greater  than or equal to 0',
+  })
+  @Max(10, {
+    message: 'Score must be less than or equal to 10',
   })
   @ApiProperty()
   scoreValue: number;

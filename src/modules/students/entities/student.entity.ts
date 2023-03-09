@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Max } from 'class-validator';
 import { snowflake } from 'src/helps/common';
 import { BaseEntity, Column, DeepPartial, Entity } from 'typeorm';
 
@@ -19,6 +20,14 @@ export class StudentsEntity extends BaseEntity {
   })
   @ApiProperty()
   studentName: string;
+
+  @Column({
+    name: 'birthday',
+    nullable: true,
+  })
+  @Max(Date.now())
+  @ApiProperty()
+  birthday: Date;
 
   @Column('bigint', {
     name: 'school_id',
