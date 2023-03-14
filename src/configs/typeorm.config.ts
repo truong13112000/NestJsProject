@@ -13,6 +13,7 @@ import { CountryEntity } from 'src/modules/country/entities/country.entity';
 import { User } from 'src/modules/users/entities/user.entity';
 import { LecturesEntity } from 'src/modules/lectures/entities/lecture.entity';
 import { SchoolsEntity } from 'src/modules/schools/entities/shool.entity';
+import { ContentsEntity } from 'src/modules/content/entities/content.entity';
 export const typeORMConfig: TypeOrmModuleOptions = {
   type: 'postgres',
   port: 5432,
@@ -35,5 +36,6 @@ export const typeORMConfig: TypeOrmModuleOptions = {
     SchoolsEntity,
     ScoresEntity,
     StudentsEntity,
+    ContentsEntity,
   ],
 };

@@ -11,6 +11,7 @@ import { CountryModule } from './modules/country/country.module';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { StudentsModule } from './modules/students/student.module';
+import { ContentsModule } from './modules/content/content.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { StudentsModule } from './modules/students/student.module';
     SchoolsModule,
     ScoresModule,
     LecturesModule,
+    ContentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
